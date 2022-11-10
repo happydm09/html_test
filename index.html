@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo4x</title>
+    <link rel="stylesheet">
+	<meta name="viewport" content="width=1500">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+</head>
+<body>
+
+
+<div id="main_capture">
+<!-- 업로더 -->
+<input type="file" id="image" accept="image/*" onchange="setThumbnail(event);" multiple/>
+<div style='margin-left: 630px;'>
+<!-- 배경 -->
+<div class="class1">		
+	<div style="position:absolute">
+		<div  style="position:relative;left:0px;top:0px; text-align: center;">
+			<img src="https://user-images.githubusercontent.com/100419204/195580541-659b29d5-1a25-409a-8607-ff9853fe475b.png" 
+				 style="width: 23vw; min-width: 100px; height:880px; "/>
+		</div>
+	</div>		
+</div>
+
+<!-- 첫번째 사진 -->
+
+  <div class="photo1">	
+	<div style="position:absolute">
+		<div id='image_container' style="position:relative;left:0px;top:40px;">
+		<img id='img' src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png" 
+			 style="width: 20vw; min-width: 300px; height:150px; margin-left: 23px; vertical-align: middle;">
+		</div>
+	</div>			
+</div>
+
+
+<!-- 두번째 사진 -->
+<div class="photo2">		
+	<div style="position:absolute">
+		<div id='image_container2' style="position:relative;left:0px;top:213px;">
+		 <img id='img2' src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png" 
+			 style="width: 20vw; min-width: 300px; height:150px; margin-left: 23px;">
+		</div>
+	</div>
+</div>
+
+<!-- 세번째 사진 -->
+<div class="photo3">		
+	<div style="position:absolute">
+		<div id='image_container3' style="position:relative;left:0px;top:396px;">
+		 <img id='img3' src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png" 
+			 style="width: 20vw; min-width: 300px; height:150px; margin-left: 23px;">
+		</div>
+	</div>			
+</div>
+
+<!-- 네번째 사진 -->
+<div class="photo4">		
+	<div style="position:absolute">
+		<div id='image_container4'  style="position:relative;left:0px;top:579px;">
+		 <img id='img4' src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png" 
+			 style="width: 20vw; min-width: 300px; height:150px; margin-left: 23px;">
+		</div>
+	</div>			
+</div>
+
+</div>
+
+<!-- 워터마크 -->
+<div class="mark" onclick='change_mark()'>
+	<div>
+		<div id='water_mark'  style="position:relative;left:-25px;top:730px; text-align : center; 
+			 font-size:2.5em; font-weight: bold;">
+					Photo4x
+		</div>
+	</div>			
+</div>
+</div>
+
+<input type="button" value="캡쳐" style="position:relative;left:0px;top:579px;"/>
+<!-- 자바 스크립트 -->
+
+<script>
+	  var num = 1
+	  
+      function setThumbnail(event) {
+		
+        for (var image of event.target.files) {
+          var reader = new FileReader();
+
+          reader.onload = function(event) {
+            var img = document.createElement("img");
+            img.setAttribute("src", event.target.result);
+			img.setAttribute("style", "width: 20vw; min-width: 300px; height:150px; margin-left: 23px;")
+			
+			if (num == 1) {
+				var header = document.querySelector("img#img");
+				
+				header.parentNode.removeChild(header);
+				document.querySelector("div#image_container").appendChild(img);
+			} else if (num == 2) {
+				var header = document.querySelector("img#img2");
+				
+				header.parentNode.removeChild(header);
+				document.querySelector("div#image_container2").appendChild(img);
+			} else if (num == 3) {
+				var header = document.querySelector("img#img3");
+				
+				header.parentNode.removeChild(header);
+				document.querySelector("div#image_container3").appendChild(img);
+			} else if (num == 4) {
+				var header = document.querySelector("img#img4");
+				
+				header.parentNode.removeChild(header);
+				document.querySelector("div#image_container4").appendChild(img);
+			}
+			num = num + 1
+          };
+	
+          console.log(image);
+          reader.readAsDataURL(image);
+        }
+      }
+	  
+	  
+function change_mark() {
+	var text = prompt('워터마크를 적어주세요.')
+	var mark = document.querySelector("div	#water_mark")
+	
+	if (text == null) {
+	} else if (text == ''){
+		alert('아무것도 없으면 안됩니다.')
+	} else {
+		mark.innerHTML = text
+	}
+	
+	if (text.lenght > 7) {
+		alert('8자 이상이면 사진을 넘어갈 수 있습니다.')
+	}	
+}
+
+    $(":button").on('click', function(e) {
+      html2canvas(document.body, {
+		proxy: '/server.js',
+	}).then(function(canvas) {
+		document.body.appendChild(canvas);
+		});
+    });
+
+</script>
+</center>
+
+
+
+</body>
+</html>
+
